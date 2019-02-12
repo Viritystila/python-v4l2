@@ -98,7 +98,7 @@ def _add_del_to_obj(obj, cls):
     obj._cls = cls
     obj.__del__ = types.MethodType(__del__, obj)
 
-def _find_qtec_dev(devpath='/dev/', devpattern='qt5023_video(\d+)'):
+def _find_qtec_dev(devpath='/dev/', devpattern='video(\d+)'):
   files = os.listdir(devpath)
   if not devpath.endswith('/'):
     devpath += '/'
@@ -143,17 +143,24 @@ def create_device_wrapper(device_path=None, pixelformat=None, **kwargs):
       device_path = dev
 
     (fmt,cp) = _get_device_info(device_path, pixelformat)
+    #print(fmt, cp)
+    #print( fmt.fmt.pix.pixelformat)
     compatible_wrappers = []
     temp_kwargs = kwargs.copy()
     temp_kwargs['reset'] = False
     temp_kwargs['cleanup'] = False
+    #_mdata.device_list=[device_path]
+    #print(_mdata)
+    #print("_mdata.device_list", _mdata.device_list)
     for i in _mdata.device_list:
         try:
             tmp = i((device_path,fmt,cp,temp_kwargs))
             del (tmp)
             compatible_wrappers.append(i)
         except Exception as e:
+            #print('Exception from wrapper ' + str(i) + ' : ' + str(e))
             logging.debug('Exception from wrapper ' + str(i) + ' : ' + str(e))
+    #print("compatible_wrappers", compatible_wrappers)
     if compatible_wrappers:
         final_wrp = copy.copy(compatible_wrappers)
         for comb in itertools.combinations(compatible_wrappers,2):
