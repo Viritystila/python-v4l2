@@ -53,9 +53,9 @@ class v4l2DeviceRWCap(v4l2DeviceBase):
         if not self.fd:
             return ""
         self._strmoff_force_fd_reset = True
-        os.lseek(self.fd, 0, os.SEEK_SET)
+        #os.lseek(self.fd, 0, os.SEEK_SET)
         data = os.read(self.fd, size)
-        os.lseek(self.fd, 0, os.SEEK_SET)
+        #os.lseek(self.fd, 0, os.SEEK_SET)
         return data
 
     def raw_read(self, size=1):
@@ -77,9 +77,9 @@ class v4l2DeviceRWCap(v4l2DeviceBase):
         if not self.fd:
             return ""
         self._strmoff_force_fd_reset = True
-        os.lseek(self.fd, 0, os.SEEK_SET)
+        #os.lseek(self.fd, 0, os.SEEK_SET)
         data = os.write(self.fd, data)
-        os.lseek(self.fd, 0, os.SEEK_SET)
+        #os.lseek(self.fd, 0, os.SEEK_SET)
         if flush:
             self.fd.flush()
 
